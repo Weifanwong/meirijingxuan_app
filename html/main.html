@@ -7,96 +7,147 @@
     <title>Hello APP</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
 	<style>
-		#con{
-			margin: 10px;
-			font-size: 24px; 
-		}
-		ul{
-			margin-bottom: 10px;
-		}
-		ul li{ 
-			margin: 5px 10px;
-			padding: 5px;
-			color: #000;
-			word-wrap: break-word;
-		}
 		header {
 			position: relative;
 			width: 100%;
 			height: 50px;
-			background-color: #f0f;
+			background-color: #e1017E;
 		}
-		header h1 {
-			position: relative;
-			height: 50px;
-			line-height: 50px;
-			font-size: 20px;color: #fff; text-align: center;
-		}
-		header .right {
-			position: absolute;
-			bottom: 0;
-			right: 0;
-			width:100px;
-			height: 50px;
-			line-height: 50px;
-			font-size: 16px; color:#fff; text-align: center;
-		}
+		
 		header .left {
 			position: absolute;
 			bottom: 0;
 			left: 0;
 			width:100px;
 			height: 50px;
+		}
+		header .left .arrow {
+			position: absolute;
+			bottom: 21px;
+			left: 11px;
+			width :13px;
+			height :8px;
+			background:url(../image/arrow_down.png);
+			background-size: 13px 8px;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		header .left .city{
+			position: relative;
+			width: 100%;
+			height: 50px;
+			padding-left: 27px;
+			box-sizing: border-box;
 			line-height: 50px;
-			font-size: 16px; color:#fff; text-align: center;
+			font-size: 14px;color: #fff;text-align: left;
+		}
+
+		header .center{
+			position: relative;
+			width:100%;
+			height: 50px;
+			background:url(../image/home_title.png);
+			background-size: 74px 19px;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		header .right {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			width:40px;
+			height: 50px;
+			background:url(../image/home_membercenter.png);
+			background-size: 17px 17px;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+
+		nav {
+			display: -webkit-box;
+			display: -webkit-flex;
+			display: flex;
+			-webkit-box-orient: horizontal;
+			-webkit-flex-flow: row;
+			flex-flow: row;
+			position: relative;
+			height: 40px;
+			width: 100%;
+			background-color: #e1017E;
+		}
+		nav .menu{
+			-webkit-box-flex: 1;
+			-webkit-flex: 1;
+			flex: 1;
+			height: 40px;
+			width: 100%;
+			line-height: 40px;
+			font-size:  13px; color: #f973b8; text-align: center;
+		}
+		nav .menu.selected {
+			font-size:  13px; color: #fff; text-align: center;
 		}
 	</style>
 </head>
 <body>
-<header>
-	<h1>每日优鲜</h1>
-	<div class="left" tapmode onclick="fnOpenCitySelectFrame()">选择城市</div>
+	<header id="header">
+		<div class="left">
+			<div class="arrow"></div>
+			<div class="city">北京市</div>
+		</div>
+		<div class="center"></div>
+		<div class="right"></div>
+		
+	</header>
+	<nav id="nav">
+		<div class="menu selected">蔬菜</div>	
+		<div class="menu">水果</div>
+		<div class="menu">鲜奶</div>
+		<div class="menu">鲜花</div>
+		<div class="menu">熟肉</div>
+	</nav>
 
-	<div class="right" tapmode onclick="fnOpenPersonCenterWin()">个人中心</div>
-</header>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript">
     apiready = function(){
-    	api.alert({
-    	    title: '进来了！',
-    	    msg: '我进来了！',
-    	});
+    	var header = $api.byId('header')
+    	var nav = $api.byId('nav');
 
+    	// $api.fixStatusBar(header);
+    	var headerH = $api.offset(header).h;
+    	var navH = $api.offset(nav).h;
+    	var menuS = $api.domAll(nav, '.menu');
+    	
+    	var frames = [];
+    	for (var i=0; i<menuS.length; i++){
+    		frames.push({
+            name: 'main_frame' + i, 
+            url: 'main_frame.html',
+        });
+    	}
+		// api.openFrameGroup ({
+		//         name: 'mainFrameGroup',
+		//         background: '#fff',
+		//         scrollEnabled: true,
+		//         rect: {
+		//              x: 0,
+		//              y: headerH + navH,
+		//              w: 'auto', 
+		//              h: 'auto'
+		//         },
+		//         index: 0,
+		//         // frames: frames
+		//     }, function(ret, err){
+		//         if( ret ){
+		//              alert( JSON.stringify( ret ) );
+		//         }else{
+		//              alert( JSON.stringify( err ) );
+		//         }
+		//     });
     };
-    function fnOpenPersonCenterWin(){
-    	api.openWin({
-    	    name: 'login',
-    	    url: './login.html',
-    	    pageParam: {
-    	        name: 'test'
-    	    }
-    	});
-    };
+    
 
-    function fnOpenCitySelectFrame(){
-    	api.openFrame({
-    	    name: 'cityselect_frame',
-    	    url: './cityselect_frame.html',
-    	    rect: {
-    	        x: 0,
-    	        y: 50,
-    	        w: 'auto',
-    	        h: 'auto',
-    	    },
-    	    pageParam: {
-    	        name: 'test'
-    	    },
-    	    bounces: true,
-    	    bgColor: 'rgba(0,0,0,0.7)',
-    	    vScrollBarEnabled: true,
-    	    hScrollBarEnabled: true
-    	});
-    };
+    
 </script>
 </html>

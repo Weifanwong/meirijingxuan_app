@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>登录</title>
+    <title>收货地址</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
     <style>
     header {
@@ -52,8 +52,8 @@
 <body>
     <header id="header">
         <div class="back" tapmode onclick="api.closeWin();"></div>
-        <h1>会员登录</h1>
-        <div class="right" tapmode onclick="fnOpenRegisterWin();">注册</div>
+        <h1>收货地址</h1>
+        <div class="right" tapmode onclick="fnOpenSetAddressWin();">添加</div>
     </header>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
@@ -63,32 +63,25 @@ apiready = function() {
     $api.fixStatusBar(header);
     var headerH = $api.offset(header).h;
 
-    // 打开注册Frame
+    // 打开收货地址Frame
     api.openFrame({
-        name: 'login_frame',
-        url: './login_frame.html',
+        name: 'address_frame',
+        url: './address_frame.html',
         rect: {
             x: 0,
             y: headerH,
             w: 'auto',
             h: 'auto'
         },
-        pageParam: {
-            name: 'test'
-        },
-        bounces: false,
-        softInputBarEnabled: false //不显示键盘上方的工具条
+        bounces: true
     });
 };
 
-// 打开注册Window
-function fnOpenRegisterWin () {
+// 打开添加收货地址Window
+function fnOpenSetAddressWin () {
     api.openWin({
-        name: 'register',
-        url: './register.html',
-        pageParam: {
-            name: 'test'
-        }
+        name: 'setaddress',
+        url: './setaddress.html'
     });
 }
 </script>
